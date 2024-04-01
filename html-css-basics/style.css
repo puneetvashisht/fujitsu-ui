@@ -1,6 +1,19 @@
 #message {
     border:1px solid black;
+    font-style: italic;
 }
 p {
     color: blue
+}
+
+h2#jscontent {
+    color: red;
+    border: 1px solid black;
+    /* margin-left: 50px; */
+    margin : 50 20 10 5px
+}
+
+.content {
+    color: cadetblue;
+    margin-left: 50px;
 }
