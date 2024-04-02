@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>
+            Clock Demo
+        </title>
+    </head>
+
+    <body>
+        <h2 id="clock">Clock!</h2>
+        <script>
+            setInterval(function(){
+                console.log('Should be invoked every second!')
+                var today = new Date();
+            // var dateStr = today.getHours() + ' : ' + today.getMinutes() + ' : ' + today.getSeconds();
+                var dateStr = `${today.getHours()} : ${today.getMinutes()} : ${today.getSeconds()}`
+                document.getElementById('clock').innerText = dateStr;
+            }, 1000);
+
+           
+        </script>
+    </body>
+</html>
