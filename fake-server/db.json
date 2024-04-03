@@ -1,0 +1,14 @@
+{
+  "trips": [
+    {
+        "id": 1,
+        "title": "Hakone",
+        "description": "Escape from the city of Tokyo and discover Japan's natural miracle around the World Heritage Mt. Fuji and Hakone in 1 day!"
+    },
+    {
+        "id": 2,
+        "title": "Disney",
+        "description": "Amazing for family!"
+    }
+  ]
+}
