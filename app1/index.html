@@ -13,7 +13,11 @@
             </div>
         </div>
         <script>
-            
+
+            function deleteTrip(id){
+                console.log('Write fetch code here to delete..', id);
+            }
+
             function loadData(){
                 console.log('Load data from backend..');
                 fetch('http://localhost:8000/trips')
@@ -29,6 +33,7 @@
                                 <h5 class="card-title">${element.title}</h5>
                                 <p class="card-text">${element.description}</p>
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <button onclick="deleteTrip(${element.id})" class="btn btn-danger"> X </button>
                                 </div>
                         </div>
                         `
