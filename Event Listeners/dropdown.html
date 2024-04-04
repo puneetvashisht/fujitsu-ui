@@ -5,11 +5,11 @@
     </head>
 
     <body>
-        <div class="dropdown">
+        <div id="dropdown-button" class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               Dropdown button
             </button>
-            <ul class="dropdown-menu">
+            <ul id="dplist" class="dropdown-menu">
               <li><a class="dropdown-item" href="#">Action</a></li>
               <li><a class="dropdown-item" href="#">Another action</a></li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
@@ -17,6 +17,20 @@
           </div>
 
           <script>
+document.addEventListener("DOMContentLoaded", () => {
+//   const newItemInput = document.getElementById("dropdown-button");
+  const addItemButton = document.getElementById("dropdown-button");
+//   const clearCompletedButton = document.getElementById("clearCompleted");
+//   const itemList = document.getElementById("itemList");
+
+  function addItem() {
+    console.log('toogle the show here ...')
+    document.getElementById('dplist').classList.toggle("show");
+  }
+
+  addItemButton.addEventListener("click", addItem);
+
+});
 
           </script>
     </body>
