@@ -33,9 +33,17 @@ foo(13)
 .then(res => console.log(res))
 .catch(err => console.log(err))
 
-fetch('http://127.0.0.1:5500/dummy.json')
-.then(res=> console.log(res))
-.catch(err=> console.log(err));
+//sugar syntax
+async function testAsync(){
+    let res = await foo(23)
+    console.log(res)
+}
+testAsync();
+
+
+// fetch('http://127.0.0.1:5500/dummy.json')
+// .then(res=> console.log(res))
+// .catch(err=> console.log(err));
 
 // let result = foo();
 // console.log(result);
