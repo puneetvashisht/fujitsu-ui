@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <title>Trips Excursion 2</title>
+    <link
+      rel="stylesheet"
+      href="node_modules/bootstrap/dist/css/bootstrap.css"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <div>
+        <input
+          type="text"
+          id="search"
+          placeholder="Search Trips"
+          class="form-control"
+        />
+      </div>
+
+      <div id="content" class="row"></div>
+    </div>
+
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script>
+      $(document).ready(() => {
+        loadData();
+
+        $("#search").on("input", function () {
+          filterTrips($(this).val().toLowerCase());
+        });
+      });
+
+      function loadData() {
+        $.ajax({
+          url: "http://localhost:8000/trips",
+          success: function (data) {
+            console.log("Data:", data);
+            let cards = data
+              .map(
+                (element) => `
+                <div class="col-md-4 mb-3">
+              <div class="card" style="width: 18rem">
+        <img src="http://picsum.photos/200/300" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <h5 class="card-title">${element.title}</h5>
+          <p class="card-text">
+           ${element.description}
+          </p>
+          <button class="danger" onclick="deleteTrip(${element.id})">Delete</button>
+        </div>
+      </div>
+      </div>
+              `
+              )
+              .join("");
+            $("#content").html(cards);
+          },
+        });
+      }
+
+      function deleteTrip(id) {
+        $.ajax({
+          url: "http://localhost:8000/trips/" + id,
+          type: "DELETE",
+          success: function (data) {
+            console.log("Trip Deleted successfully");
+          },
+        });
+      }
+
+      function filterTrips(searchTerm) {
+        let cardTitles = $(".card-title");
+        cardTitles.each(function () {
+          let titleText = $(this).text().toLowerCase();
+          if (titleText.includes(searchTerm)) {
+            $(this).closest(".col-md-4").fadeIn("slow");
+          } else {
+            $(this).closest(".col-md-4").fadeOut("slow");
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
