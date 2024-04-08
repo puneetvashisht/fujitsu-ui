@@ -41,15 +41,50 @@
         </select>
       </fieldset>
     </form> -->
-
-    <div id="survey-container">
-      <h2 id="question"></h2>
-      <div id="answers"></div>
-      <button id="previous">Previous</button>
-      <button id="next">Next</button>
-      <button id="submit">Submit</button>
+    <div id="dialog" title="Basic dialog">
+      <p>
+        This is the default dialog which is useful for displaying information.
+        The dialog window can be moved, resized and closed with the 'x' icon.
+      </p>
     </div>
-    <script src="node_modules/jquery//dist/jquery.js"></script>
+    <div id="tabs" style="display: none">
+      <ul>
+        <li><a href="#tabs-1">Survey</a></li>
+        <li><a href="#tabs-2">Results</a></li>
+      </ul>
+      <div id="tabs-1">
+        <div id="survey-container">
+          <h2 id="question"></h2>
+          <div id="answers"></div>
+          <button id="previous">Previous</button>
+          <button id="next">Next</button>
+          <button id="submit">Submit</button>
+        </div>
+      </div>
+      <div id="tabs-2">
+        <h2>Score:<span id="score">0</span></h2>
+      </div>
+    </div>
+    <div id="tabs1">
+      <!-- <ul>
+        <li><a herf="#quiz-tab">Survey</a></li>
+        <li><a herf="#results-tab">Results</a></li>
+      </ul>
+      <div id="quiz-tab">
+        <div id="survey-container">
+          <h2 id="question"></h2>
+          <div id="answers"></div>
+          <button id="previous">Previous</button>
+          <button id="next">Next</button>
+          <button id="submit">Submit</button>
+        </div>
+      </div>
+      <div id="results-tab">
+        <h2>Score:<span id="score">0</span></h2>
+      </div> -->
+    </div>
+
+    <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/jquery-ui/dist/jquery-ui.js"></script>
     <script>
       //   $(function () {
@@ -71,7 +106,30 @@
       //     $( "#speed" ).selectmenu();
       //   });
       $(document).ready(() => {
-        displayQuestion();
+        // $("#tabs").tabs();
+        $("#dialog").dialog({
+          modal: true,
+          buttons: {
+            "Start Survey": function () {
+              $(this).dialog("close");
+              $("#tabs").show();
+              $("#tabs").tabs({
+                active: 0,
+                disabled: [1],
+              });
+              displayQuestion();
+            },
+            // "Start Survey": () => {
+            //   $(this).dialog("close");
+            //   $("#tabs").show();
+            //   $("#tabs").tabs({
+            //     active: 0,
+            //     disabled: [1],
+            //   });
+            //   displayQuestion();
+            // },
+          },
+        });
       });
       var questions = [
         {
@@ -95,8 +153,9 @@
       ];
 
       var currentQuestion = 0;
+      var score = 0;
 
-      const displayQuestion = () => {
+      function displayQuestion() {
         let q = questions[currentQuestion];
         $("#question").text(q.question);
         $("#answers").empty();
@@ -104,10 +163,12 @@
           $("#answers").append(
             `<input type="radio" id="answer${i}" name="answer" value="${i}" ${
               q.selected == i ? "checked" : ""
-            } ><label for="answers${i}">${q.answers[i]}</label><br>`
+            }><label for="answer${i}">${q.answers[i]}</label><br>`
           );
         }
-        // $('#answers input[type="radio"]').checkboxradio();
+
+        $('#answers input[type="radio"]').checkboxradio();
+
         if (currentQuestion === 0) {
           $("#previous").hide("fade", 500);
         } else {
@@ -120,23 +181,45 @@
           $("#next").show("fade", 500);
           $("#submit").hide("fade", 500);
         }
-      };
+      }
 
-      $("#next").click(() => {
+      $("#previous, #next, #submit, #restart").button();
+
+      $("#next").click(function () {
         let selectedAnswer = $('input[name="answer"]:checked').val();
-        currentQuestion++;
-        console.log("selectedAnswer:", selectedAnswer);
-        console.log("currentQuestion", questions[currentQuestion]);
         questions[currentQuestion].selected = selectedAnswer;
+        currentQuestion++;
         displayQuestion();
       });
-      $("#previous").click(() => {
+
+      $("#previous").click(function () {
         let selectedAnswer = $('input[name="answer"]:checked').val();
-        currentQuestion--;
-        console.log("selectedAnswer:", selectedAnswer);
-        console.log("currentQuestion", questions[currentQuestion]);
         questions[currentQuestion].selected = selectedAnswer;
+        currentQuestion--;
+        if (currentQuestion < 0) {
+          currentQuestion = 0;
+        }
         displayQuestion();
+      });
+
+      const updateTab = () => {
+        $("#score").text(score);
+        $("#tabs").tabs("enable", 1);
+        $("#tabs").tabs("option", "active", 1);
+      };
+
+      $("#submit").click(function () {
+        let selectedAnswer = $('input[name="answer"]:checked').val();
+        questions[currentQuestion].selected = selectedAnswer;
+        score = 0;
+        for (let i = 0; i < questions.length; i++) {
+          let q = questions[i];
+          if (q.selected !== null && q.selected == q.correct) {
+            score++;
+          }
+        }
+        console.log("Score:", score);
+        updateTab();
       });
     </script>
   </body>

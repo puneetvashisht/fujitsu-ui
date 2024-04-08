@@ -10,21 +10,25 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <!-- Include jQuery UI library -->
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   </head>
   <body>
     <div id="navbar"></div>
 
     <div class="container mt-5">
       <h2>Trip Details</h2>
-      <div id="tripDetails"></div>
+
+      <div id="draggableResizableTripDetails" class="ui-widget-content">
+        <div id="tripDetails"></div>
+      </div>
     </div>
 
-    <script src="node_modules/jquery/dist/jquery.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
     <script>
       $(function () {
         $("#navbar").load("navbar.html");
@@ -59,7 +63,7 @@
       function renderTripDetails(trip) {
         const tripDetailsElement = $("#tripDetails");
         tripDetailsElement.html(`
-                <div class="card" style="width: 35rem;">
+                <div class="card w-full" >
                     <img src="https://picsum.photos/1920/1080" class="card-img-top" alt="Trip Image">
                     <div class="card-body">
                         <h5 class="card-title">${trip.title}</h5>
@@ -70,8 +74,10 @@
             `);
 
         $("#updateBtn").on("click", function () {
-          window.location.href = "updateTrip.html?id=" + trip.id;
+          window.location.href = "updateDetails.html?id=" + trip.id;
         });
+
+        $("#draggableResizableTripDetails").draggable().resizable();
       }
     </script>
   </body>
